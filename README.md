@@ -1,69 +1,91 @@
-# React + TypeScript + Vite
+# Kanvai 🎨✨
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Un generador de imágenes impulsado por **Gemini AI** que permite a los
+usuarios dibujar en un lienzo y transformar sus bocetos en ilustraciones
+fotorealistas o de estilo anime.
 
-Currently, two official plugins are available:
+## 🚀 Características
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- 🎨 **Lienzo interactivo**: Dibuja con pincel o borrador, ajusta el
+  color y el grosor de la línea.\
+- 🤖 **Integración con Gemini AI**: Convierte tu dibujo en imágenes
+  generadas por IA (fotorealistas o anime).\
+- 🛠️ **Herramientas de dibujo**: Selector de color, control de radio
+  del pincel y borrador.\
+- 🔑 **Soporte para API Key**: Usa tu propia clave de Gemini para la
+  generación de imágenes.\
+- 📱 **Interfaz moderna y responsiva**: Construida con **React +
+  Vite + TailwindCSS**.\
+- 📂 **Arquitectura escalable**: Uso de **React Router** y estructura
+  de carpetas con `pages/` para soportar futuras vistas.
 
-## Expanding the ESLint configuration
+## 🖼️ Flujo de uso
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+1.  Ingresa tu clave de **Gemini API**.\
+2.  Dibuja algo en el lienzo (con pincel o borrador).\
+3.  Selecciona un estilo (Fotorealista o Anime).\
+4.  Haz clic en **Generar imagen** y espera el resultado.
 
-```js
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+## 🛠️ Tecnologías utilizadas
 
-      // Remove tseslint.configs.recommended and replace with this
-      ...tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      ...tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      ...tseslint.configs.stylisticTypeChecked,
+- ⚛️ **React 19** + **Vite**\
+- 🎨 **TailwindCSS**\
+- 🖌️ **Konva / React-Konva** (para el lienzo)\
+- 🤖 **@google/genai** (Gemini AI API)\
+- 🧭 **React Router**
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+## 📦 Instalación y configuración
+
+Clona el repositorio e instala las dependencias:
+
+```bash
+git clone https://github.com/Cristiangc67/KanvAI.git
+cd kanvai
+npm install
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+### Ejecutar en modo desarrollo
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+npm run dev
 ```
+
+### Construir para producción
+
+```bash
+npm run build
+```
+
+### Vista previa de la build
+
+```bash
+npm run preview
+```
+
+## 🔑 Configuración de API Key
+
+Este proyecto no guarda tu clave de API en el backend.\
+
+1. Obtén tu **Gemini API Key** en [Google AI
+   Studio](https://aistudio.google.com/).\
+2. Ingresa la clave en el campo `Gemini key` dentro de la aplicación.
+
+## 📂 Estructura principal del proyecto
+
+    src/
+     ├── components/
+     │   ├── Canvas.tsx        # Lienzo interactivo
+     │   ├── TopBar.tsx        # Barra de herramientas
+     │   ├── Generate.tsx      # Lógica de generación con Gemini
+     │   ├── PromptModal.tsx   # Modal para seleccionar estilo
+     │   ├── Output.tsx        # Renderiza resultados (imagen generada)
+     │
+     ├── pages/
+     │   ├── Creation.tsx      # Vista principal de creación
+     │
+     ├── App.tsx               # Componente principal con rutas
+     ├── main.tsx              # Punto de entrada
+
+## 📸 Capturas (opcional)
+
+_Aquí puedes agregar imágenes/gifs mostrando el flujo de uso._
