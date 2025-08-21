@@ -2,7 +2,6 @@ import { useRef, type Dispatch, type SetStateAction } from "react";
 import ToolButton from "../ui/ToolButton";
 import Pen from "../assets/pen.svg?react";
 import Eraser from "../assets/eraser.svg?react";
-import { GoogleGenAI } from "@google/genai";
 
 interface props {
   strokeWidthRef: React.RefObject<HTMLInputElement | null>;
@@ -13,7 +12,6 @@ interface props {
   handleStrokeChange: () => void;
   currentStroke: number;
   setApi: Dispatch<SetStateAction<string>>;
-  api: string;
 }
 
 const TopBar = ({
@@ -25,7 +23,6 @@ const TopBar = ({
   handleStrokeChange,
   currentStroke,
   setApi,
-  api,
 }: props) => {
   const apiRef = useRef<HTMLInputElement>(null);
 
@@ -105,7 +102,6 @@ const TopBar = ({
           className="bg-neutral-300 rounded-lg"
         />
       </div>
-      {/* <button onClick={handleExport}>asdasdas</button> */}
     </div>
   );
 };
