@@ -3,7 +3,6 @@ import { createRoot } from "react-dom/client";
 import "./index.css";
 import App from "./App.tsx";
 import { createBrowserRouter, RouterProvider } from "react-router";
-import Navbar from "./components/Navbar";
 
 import Creation from "./pages/Creation.tsx";
 
