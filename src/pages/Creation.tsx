@@ -42,6 +42,7 @@ const creation = () => {
           handleStrokeChange={handleStrokeChange}
           currentStroke={currentStroke}
           setApi={setApi}
+          api={api}
         />
 
         <Canvas
