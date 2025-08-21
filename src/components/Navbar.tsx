@@ -2,7 +2,7 @@ import { NavLink } from "react-router";
 
 const Navbar = () => {
   return (
-    <nav className="fixed w-8/12 left-1/2 top-10 -translate-1/2 h-fit  py-2 items-center flex justify-between bg-[#C6ECEA] px-10 rounded-lg">
+    <nav className=" sticky w-full  h-fit  py-2 items-center flex justify-between bg-[#C6ECEA] px-40 rounded-lg">
       <NavLink to={"/"} className="yeseva-one-regular flex items-end text-2xl">
         <img src="/logo.png" className="w-12" alt="" />
         <span className="text-[#30A3B3]">KanvAI</span>

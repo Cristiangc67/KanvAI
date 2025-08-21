@@ -48,3 +48,6 @@ img {
   -moz-user-drag: none; /* For Mozilla Firefox */
   user-drag: none; /* Standard property */
 }
+
+#modal {
+}

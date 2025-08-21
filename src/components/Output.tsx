@@ -1,6 +1,47 @@
-const Output = () => {
+import Download from "../assets/download.svg?react";
+
+interface prop {
+  base64: string;
+  outputLoading: boolean;
+}
+
+const Output = ({ base64, outputLoading }: prop) => {
+  function downloadURI(uri: string, name: string) {
+    const link = document.createElement("a");
+    link.download = name;
+    link.href = uri;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  }
+
   return (
-    <div className="aspect-square max-h-[73vh] ms-10 w-fit border border-gray-300 rounded-lg overflow-hidden flex justify-center items-center animate-pulse bg-zinc-600"></div>
+    <div className=" lg:w-1/2 h-fit pb-10 flex flex-col bg-neutral-50 text-start border border-black/20 rounded-3xl shadow-2xl">
+      <h2 className=" py-5 text-2xl block ubuntu-bold ms-6">Resultado</h2>
+      <div
+        className={`aspect-square relative h-[73vh] max-h-[73vh] mx-auto w-fit border border-neutral-800 rounded-lg overflow-hidden items-center flex ${
+          outputLoading ? "animate-pulse" : ""
+        } bg-zinc-600`}
+      >
+        {base64 !== "" && (
+          <>
+            <button
+              onClick={() =>
+                downloadURI(`data:image/png;base64,${base64}`, "download.png")
+              }
+              className="w-10 h-10 rounded-full cursor-pointer absolute top-2 right-2 z-10"
+            >
+              <Download className="w-10 h-10  rounded-full" />
+            </button>
+            <img
+              src={`data:image/png;base64,${base64}`}
+              className=" w-full"
+              alt=""
+            />
+          </>
+        )}
+      </div>
+    </div>
   );
 };
 
