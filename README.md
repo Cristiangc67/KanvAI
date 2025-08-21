@@ -86,6 +86,6 @@ Este proyecto no guarda tu clave de API en el backend.\
      ├── App.tsx               # Componente principal con rutas
      ├── main.tsx              # Punto de entrada
 
-## 📸 Capturas (opcional)
+## 📸 Capturas
 
-_Aquí puedes agregar imágenes/gifs mostrando el flujo de uso._
+<img width="1635" height="951" alt="creation" src="https://github.com/user-attachments/assets/38d2d2ab-7577-476d-9034-5bfb02da2eb8" />
