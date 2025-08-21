@@ -1,5 +1,5 @@
-import { Stage as ReactKonvaStage, Layer, Line, Text, Rect } from "react-konva";
-import { useState, useRef, useEffect } from "react";
+import { Stage as ReactKonvaStage, Layer, Line, Rect } from "react-konva";
+import { useState, useRef } from "react";
 import Konva from "konva";
 import type { Stage } from "konva/lib/Stage";
 
@@ -19,7 +19,7 @@ interface props {
 
 const Canvas = ({ tool, color, stroke, stageRef }: props) => {
   const [lines, setLines] = useState<LineType[]>([]);
-  const [canvasSize, setCanvasSize] = useState(500);
+
   const containerRef = useRef<HTMLDivElement>(null);
   const isDrawing = useRef(false);
 
@@ -75,44 +75,42 @@ const Canvas = ({ tool, color, stroke, stageRef }: props) => {
       ref={containerRef}
       className=" aspect-square max-h-[73vh]  w-fit border border-gray-300 rounded-lg overflow-hidden flex justify-center items-center bg-white shadow-xl"
     >
-      {canvasSize > 0 && (
-        <ReactKonvaStage
-          width={window.innerWidth}
-          height={window.innerHeight}
-          ref={stageRef}
-          onMouseDown={handleMouseDown}
-          onMouseMove={handleMouseMove}
-          onMouseUp={handleMouseUp}
-          onTouchStart={handleMouseDown}
-          onTouchMove={handleMouseMove}
-          onTouchEnd={handleMouseUp}
-        >
-          <Layer>
-            <Rect
-              x={0}
-              y={0}
-              width={window.innerWidth}
-              height={window.innerHeight}
-              fill="white"
-              listening={false}
+      <ReactKonvaStage
+        width={window.innerWidth}
+        height={window.innerHeight}
+        ref={stageRef}
+        onMouseDown={handleMouseDown}
+        onMouseMove={handleMouseMove}
+        onMouseUp={handleMouseUp}
+        onTouchStart={handleMouseDown}
+        onTouchMove={handleMouseMove}
+        onTouchEnd={handleMouseUp}
+      >
+        <Layer>
+          <Rect
+            x={0}
+            y={0}
+            width={window.innerWidth}
+            height={window.innerHeight}
+            fill="white"
+            listening={false}
+          />
+          {lines.map((line, i) => (
+            <Line
+              key={i}
+              points={line.points}
+              stroke={line.color}
+              strokeWidth={line.strokeWidth}
+              tension={0.5}
+              lineCap="round"
+              lineJoin="round"
+              globalCompositeOperation={
+                line.tool === "eraser" ? "destination-out" : "source-over"
+              }
             />
-            {lines.map((line, i) => (
-              <Line
-                key={i}
-                points={line.points}
-                stroke={line.color}
-                strokeWidth={line.strokeWidth}
-                tension={0.5}
-                lineCap="round"
-                lineJoin="round"
-                globalCompositeOperation={
-                  line.tool === "eraser" ? "destination-out" : "source-over"
-                }
-              />
-            ))}
-          </Layer>
-        </ReactKonvaStage>
-      )}
+          ))}
+        </Layer>
+      </ReactKonvaStage>
     </div>
   );
 };
