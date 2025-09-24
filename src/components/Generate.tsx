@@ -8,13 +8,22 @@ interface props {
   setOutputLoading: Dispatch<SetStateAction<boolean>>;
   setBase64: Dispatch<SetStateAction<string>>;
   api: string;
+  setApi: Dispatch<SetStateAction<string>>;
+  setError: Dispatch<SetStateAction<string | null>>;
 }
 const styles = [
   "generate a photorealistic image based on the image provided, aspect ratio 1:1",
   "generate a more complex anime image based on the image provided, aspect ratio 1:1",
 ];
 
-const Generate = ({ stageRef, setOutputLoading, setBase64, api }: props) => {
+const Generate = ({
+  stageRef,
+  setOutputLoading,
+  setBase64,
+  api,
+  setApi,
+  setError,
+}: props) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [style, setStyle] = useState(0);
 
@@ -80,9 +89,18 @@ const Generate = ({ stageRef, setOutputLoading, setBase64, api }: props) => {
         console.log("Image generated in Base64:", base64Data);
         setBase64(base64Data);
       } else {
+        setError("No se encontro datos en la respuesta");
         console.error("No image data found in the response.");
       }
     } catch (error) {
+      if (typeof error === "string") {
+        setError(error);
+        console.log("Error string:", error.toUpperCase());
+      } else if (error instanceof Error) {
+        setError(error.message);
+        console.log("Error objeto:", error.message);
+      }
+
       console.error("Error generating image:", error);
     } finally {
       setOutputLoading(false);
@@ -98,6 +116,8 @@ const Generate = ({ stageRef, setOutputLoading, setBase64, api }: props) => {
           handleExport={handleExport}
           setStyle={setStyle}
           style={style}
+          setApi={setApi}
+          api={api}
         />
       )}
 

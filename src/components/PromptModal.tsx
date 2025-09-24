@@ -1,4 +1,11 @@
-import { useEffect, useRef, type Dispatch, type SetStateAction } from "react";
+import { GoogleGenAI } from "@google/genai";
+import {
+  useEffect,
+  useRef,
+  useState,
+  type Dispatch,
+  type SetStateAction,
+} from "react";
 import { createPortal } from "react-dom";
 
 interface props {
@@ -7,6 +14,8 @@ interface props {
   handleExport: () => void;
   setStyle: Dispatch<SetStateAction<number>>;
   style: number;
+  setApi: Dispatch<SetStateAction<string>>;
+  api: string;
 }
 
 const PromptModal = ({
@@ -15,10 +24,51 @@ const PromptModal = ({
   handleExport,
   setStyle,
   style,
+  setApi,
+  api,
 }: props) => {
+  const [isValidKey, setIsValidKey] = useState<boolean | null>(null);
   const selectRef = useRef<HTMLSelectElement>(null);
   const dialogRef = useRef<HTMLDialogElement>(null);
   const modalRoot = document.getElementById("modal");
+  const apiRef = useRef<HTMLInputElement>(null);
+
+  const handleApi = async () => {
+    const apiValue = apiRef.current?.value;
+    if (!apiValue) {
+      console.log("Error en api key");
+      return;
+    }
+    setApi(apiValue);
+
+    try {
+      const result = await validateApiKey(apiValue);
+      if (result) {
+        setIsValidKey(true);
+      } else {
+        setIsValidKey(false);
+      }
+    } catch (err) {
+      console.error("Invalid API key:", err);
+      setIsValidKey(false);
+    }
+  };
+
+  const validateApiKey = async (apiKey: string) => {
+    try {
+      const ai = new GoogleGenAI({ apiKey });
+      const response = await ai.models.generateContent({
+        model: "gemini-2.0-flash",
+        contents: "test",
+      });
+
+      const textResult = response.candidates?.[0]?.content?.parts?.[0]?.text;
+      return textResult ?? null;
+    } catch (error) {
+      console.error("Error validating API key:", error);
+      return null;
+    }
+  };
 
   useEffect(() => {
     const dialog = dialogRef.current;
@@ -26,12 +76,28 @@ const PromptModal = ({
 
     if (isOpen) {
       dialog.showModal();
+      const apiValue = apiRef.current?.value;
+      if (apiValue) {
+        validateApiKey(apiValue).then((result) => {
+          if (result) {
+            setIsValidKey(true);
+          } else {
+            setIsValidKey(false);
+          }
+        });
+      }
     } else {
       dialog.close();
     }
   }, [isOpen]);
 
   useEffect(() => {
+    if (isOpen && apiRef.current) {
+      apiRef.current.value = api;
+    }
+  }, [isOpen, api]);
+
+  /* useEffect(() => {
     const dialog = dialogRef.current;
     if (!dialog) return;
 
@@ -43,7 +109,7 @@ const PromptModal = ({
 
     dialog.addEventListener("click", handleClickOutside);
     return () => dialog.removeEventListener("click", handleClickOutside);
-  }, [onClose]);
+  }, [onClose]); */
   useEffect(() => {
     if (selectRef.current) {
       selectRef.current.value = style.toString();
@@ -81,6 +147,22 @@ const PromptModal = ({
         <option value="0">Fotorealista</option>
         <option value="1">Anime</option>
       </select>
+      <div className="flex flex-col gap-2 items-center">
+        <label htmlFor="provider" className=" ubuntu-bold">
+          Gemini key
+        </label>
+        <input
+          type="text"
+          onChange={handleApi}
+          ref={apiRef}
+          className={`bg-white rounded-full px-4 py-2 border-2  ${
+            isValidKey
+              ? " border-blue-600 shadow-lg shadow-blue-500"
+              : " border-red-800 shadow-lg shadow-red-500"
+          }`}
+          placeholder="Ingresa tu API key"
+        />
+      </div>
       <div className="flex gap-10">
         <button
           onClick={onClose}

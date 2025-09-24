@@ -11,7 +11,6 @@ interface props {
   handleColorChange: () => void;
   handleStrokeChange: () => void;
   currentStroke: number;
-  setApi: Dispatch<SetStateAction<string>>;
 }
 
 const TopBar = ({
@@ -22,18 +21,9 @@ const TopBar = ({
   handleColorChange,
   handleStrokeChange,
   currentStroke,
-  setApi,
 }: props) => {
-  const apiRef = useRef<HTMLInputElement>(null);
-
-  const handleApi = () => {
-    const apiValue = apiRef.current?.value;
-    if (!apiValue) return console.log("Error en api key");
-    setApi(apiValue);
-  };
-
   return (
-    <div className=" w-full h-1/12 justify-center  rounded-xl p-5 gap-5 flex flex-row items-center">
+    <div className="  w-full h-1/12 justify-center md:justify-start items-end py-2 rounded-xl md:p-3 gap-1 md:gap-5 flex flex-row ">
       <ToolButton
         tool="brush"
         currentTool={tool}
@@ -63,19 +53,19 @@ const TopBar = ({
         />
       </ToolButton>
 
-      <div className="flex items-center gap-2 ubuntu-bold">
+      <div className="flex flex-col items-center ubuntu-bold text-sm md:text-base">
         <label htmlFor="picker">Color</label>
         <input
           ref={colorPickerRef}
           type="color"
-          className="w-10 h-7 cursor-pointer bg-[#47d1af]  rounded-lg"
+          className="w-10 h-7 cursor-pointer bg-neutral-200   rounded-lg"
           name="picker"
           id="picker"
           onChange={handleColorChange}
         />
       </div>
-      <div className="flex flex-row text-center gap-2 items-center w-fit">
-        <label htmlFor="stroke" className="ubuntu-bold">
+      <div className="flex  flex-col ubuntu-bold  items-center text-sm md:text-base">
+        <label htmlFor="stroke" className="">
           Radio
         </label>
         <input
@@ -83,23 +73,11 @@ const TopBar = ({
           type="number"
           name="stroke"
           id="stroke"
-          className="w-14 h-7 rounded-lg bg-[#47d1af] text-center ubuntu-bold "
+          className="w-14 h-7 rounded-lg bg-neutral-200  focus:outline-[#47d1af]  text-center ubuntu-bold "
           onChange={handleStrokeChange}
           value={currentStroke}
           min="1"
           max="100"
-        />
-      </div>
-
-      <div className="flex gap-2 items-center">
-        <label htmlFor="provider" className=" ubuntu-bold">
-          Gemini key
-        </label>
-        <input
-          type="text"
-          onChange={handleApi}
-          ref={apiRef}
-          className="bg-neutral-300 rounded-lg"
         />
       </div>
     </div>

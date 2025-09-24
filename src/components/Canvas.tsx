@@ -73,7 +73,7 @@ const Canvas = ({ tool, color, stroke, stageRef }: props) => {
   return (
     <div
       ref={containerRef}
-      className=" aspect-square max-h-[73vh]  w-fit border border-gray-300 rounded-lg overflow-hidden flex justify-center items-center bg-white shadow-xl"
+      className=" touch-none z-0 relative aspect-square h-auto w-full border  border-gray-300 rounded-lg overflow-hidden flex justify-center items-center bg-white shadow-xl"
     >
       <ReactKonvaStage
         width={window.innerWidth}
