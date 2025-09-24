@@ -7,7 +7,7 @@ import { useState } from "react";
 import { Link } from "react-router";
 
 export default function LoginPage() {
-  const { signIn, signInWithGoogle, signUp, user, signOut } = useAuth();
+  const { signIn, signInWithGoogle } = useAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errorText, setErrorText] = useState<string | null>(null);

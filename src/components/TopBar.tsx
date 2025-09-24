@@ -1,4 +1,4 @@
-import { useRef, type Dispatch, type SetStateAction } from "react";
+import { type Dispatch, type SetStateAction } from "react";
 import ToolButton from "../ui/ToolButton";
 import Pen from "../assets/pen.svg?react";
 import Eraser from "../assets/eraser.svg?react";

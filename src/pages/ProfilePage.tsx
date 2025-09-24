@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState } from "react";
 import supabase from "../supabase-client.ts";
 import { useParams } from "react-router";
 import People from "../assets/people.svg?react";
@@ -27,7 +27,7 @@ const ProfilePage = () => {
     const fecha = new Date(dateISO);
 
     const dia = fecha.getDate().toString().padStart(2, "0");
-    const mes = (fecha.getMonth() + 1).toString().padStart(2, "0"); // Los meses van de 0-11
+    const mes = (fecha.getMonth() + 1).toString().padStart(2, "0");
     const anio = fecha.getFullYear();
 
     return `${dia}--${mes}--${anio}`;
@@ -51,7 +51,7 @@ const ProfilePage = () => {
 
   useEffect(() => {
     if (!id || !profile) {
-      return; // Sal del useEffect si falta alguna de las dependencias clave.
+      return;
     }
 
     if (profile?.id === id) {

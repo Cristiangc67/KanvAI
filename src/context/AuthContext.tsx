@@ -38,7 +38,6 @@ interface AuthContextType {
 
 export const AuthContext = createContext<AuthContextType | null>(null);
 
-// Variables de persistencia
 let isProfileLoading = false;
 const PROFILE_STORAGE_KEY = "profile_data";
 const SESSION_STORAGE_KEY = "session_data";
@@ -48,7 +47,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [profile, setProfile] = useState<Profile | null>(() => {
-    // Cargar perfil desde localStorage al inicializar
     if (typeof window !== "undefined") {
       try {
         const stored = localStorage.getItem(PROFILE_STORAGE_KEY);
@@ -59,10 +57,9 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     }
     return null;
   });
-  const [error, setError] = useState<string | null>(null);
+  const [errorM, setErrorM] = useState<string | null>(null);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-  // Función para guardar perfil en localStorage
   const saveProfileToStorage = (profileData: Profile | null) => {
     if (typeof window !== "undefined") {
       if (profileData) {
@@ -73,7 +70,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     }
   };
 
-  // Función para guardar sesión en localStorage
   const saveSessionToStorage = (sessionData: Session | null) => {
     if (typeof window !== "undefined") {
       if (sessionData) {
@@ -84,7 +80,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     }
   };
 
-  // Función para cargar sesión desde localStorage
   const getSessionFromStorage = (): Session | null => {
     if (typeof window !== "undefined") {
       try {
@@ -116,7 +111,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         return null;
       }
 
-      // ✅ Siempre actualizar el estado para forzar re-renderizados
       setProfile(data);
       saveProfileToStorage(data);
       return data;
@@ -130,7 +124,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   const updateSessionState = async (newSession: Session | null) => {
     setSession(newSession);
-    saveSessionToStorage(newSession); // Guardar sesión en localStorage
+    saveSessionToStorage(newSession);
     setIsLoggedIn(!!newSession);
 
     if (newSession?.user) {
@@ -150,7 +144,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
     const initAuth = async () => {
       try {
-        // Cargar sesión desde cache para mejor UX
         const cachedSession = getSessionFromStorage();
         if (cachedSession && mounted) {
           setSession(cachedSession);
@@ -165,7 +158,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         if (mounted) {
           await updateSessionState(currentSession);
 
-          // Si hay sesión actual pero diferente a la cacheada, recargar
           if (
             currentSession?.user &&
             cachedSession?.user.id !== currentSession.user.id
@@ -175,8 +167,9 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         }
       } catch (error: any) {
         console.error("Error initializing auth:", error);
-        setError(error.message);
-        // Limpiar storage en caso de error
+        setErrorM(error.message);
+        console.log(errorM);
+
         saveProfileToStorage(null);
         saveSessionToStorage(null);
         await signOut();

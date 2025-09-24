@@ -1,7 +1,6 @@
 import "./App.css";
 import { Outlet } from "react-router";
 import Navbar from "./components/Navbar";
-import { useAuth } from "./context/AuthContext";
 
 function App() {
   /* const { isLoading } = useAuth();

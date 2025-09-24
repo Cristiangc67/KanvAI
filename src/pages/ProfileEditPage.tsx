@@ -7,16 +7,16 @@ import Close from "../assets/close-circle.svg?react";
 import Upload from "../assets/upload.svg?react";
 import { useNavigate } from "react-router";
 
-interface Profile {
+/* interface Profile {
   id: string;
   username: string | null;
   avatar_url: string | null;
   created_at: string;
   description: string;
-}
+} */
 
 const ProfileEditPage = () => {
-  const { profile, loadProfile } = useAuth(); // ✅ Asegúrate de tener loadProfile
+  const { profile, loadProfile } = useAuth();
   const [username, setUsername] = useState(profile?.username || "");
   const [description, setDescription] = useState(profile?.description || "");
   const [isCheckingUsername, setIsCheckingUsername] = useState(false);
@@ -73,7 +73,6 @@ const ProfileEditPage = () => {
     }, 3000);
   }, [username, initialUsername]);
 
-  // ✅ NUEVO: Actualizar estados cuando el perfil cambie
   useEffect(() => {
     if (profile) {
       setUsername(profile.username || "");
@@ -129,7 +128,6 @@ const ProfileEditPage = () => {
 
       let avatarUrl = profile.avatar_url;
 
-      // Solo procesar imagen si hay una nueva
       if (image) {
         const filePath = `${profile.id}/${profile.id}.png`;
         const { error: uploadError } = await supabase.storage
@@ -149,7 +147,6 @@ const ProfileEditPage = () => {
         avatarUrl = publicUrlData?.publicUrl || profile.avatar_url;
       }
 
-      // Actualizar el perfil
       const { error: updateError } = await supabase
         .from("profiles")
         .update({
@@ -166,27 +163,21 @@ const ProfileEditPage = () => {
       } else {
         setSubmitMessage("Perfil actualizado con éxito");
 
-        // ✅ FORZAR recarga completa con limpieza de cache
         if (loadProfile) {
-          // 1. Limpiar el cache de localStorage
           if (typeof window !== "undefined") {
             localStorage.removeItem("profile_data");
           }
 
-          // 2. Pequeña pausa para asegurar que Supabase haya guardado
           await new Promise((resolve) => setTimeout(resolve, 500));
 
-          // 3. Recargar el perfil
           await loadProfile(profile.id);
 
-          // 4. Actualizar también los estados locales del formulario
           if (profile) {
             setUsername(profile.username || "");
             setDescription(profile.description || "");
           }
         }
 
-        // 5. Redirigir después de mostrar mensaje
         setTimeout(() => {
           navigate(`/user/${profile.id}`);
         }, 2000);
